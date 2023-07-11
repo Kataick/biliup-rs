@@ -65,6 +65,7 @@ OPTIONS:
         --open-elec <OPEN_ELEC>        是否开启充电面板, 0-关闭 1-开启 [default: 0]
         --source <SOURCE>              转载来源 [default: ]
         --tag <TAG>                    视频标签，逗号分隔多个tag [default: ]
+        --topic-id <TOPIC_ID>          参与话题活动, 进入话题页面获取 [default: 0]
         --tid <TID>                    投稿分区 [default: 171]
         --title <TITLE>                视频标题 [default: ]
         --up-close-danmu

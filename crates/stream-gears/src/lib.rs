@@ -141,6 +141,7 @@ fn upload(
     lossless_music: u8,
     no_reprint: u8,
     open_elec: u8,
+    topic_id: u16,
     dtime: Option<u32>,
     line: Option<UploadLine>,
     limit: usize,
@@ -182,6 +183,7 @@ fn upload(
                 lossless_music,
                 no_reprint,
                 open_elec,
+                topic_id,
                 desc_v2,
             )) {
                 Ok(_res) => Ok(()),

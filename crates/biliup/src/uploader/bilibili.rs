@@ -106,6 +106,11 @@ pub struct Studio {
     #[serde(default)]
     pub open_elec: u8,
 
+    /// 参与话题, 
+    #[clap(long, default_value)]
+    #[serde(default)]
+    pub topic_id: u16,
+
     /// aid 要追加视频的 avid
     #[clap(skip)]
     pub aid: Option<u64>,

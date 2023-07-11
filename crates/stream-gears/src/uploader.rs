@@ -52,6 +52,7 @@ pub async fn upload(
     lossless_music: u8,
     no_reprint: u8,
     open_elec: u8,
+    topic_id: u16,
     desc_v2_PyCredit: Vec<PyCredit>,
 ) -> Result<ResponseData> {
     // let file = std::fs::File::options()
@@ -127,6 +128,7 @@ pub async fn upload(
         .lossless_music(lossless_music)
         .no_reprint(no_reprint)
         .open_elec(open_elec)
+        .topic_id(topic_id)
         .desc_v2(Some(desc_v2))
         .build();
     if !studio.cover.is_empty() {
