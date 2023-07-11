@@ -64,7 +64,7 @@ impl UploadStreamersRepository for SqliteUploadStreamersRepository {
                 lossless_music as "lossless_music!: u8",
                 no_reprint as "no_reprint!: u8",
                 open_elec as "open_elec!: u8",
-                topic_id as "topic_id: u16",
+                topic_id as "topic_id!: u16",
                 up_selection_reply as "up_selection_reply!: bool",
                 up_close_reply as "up_close_reply!: bool",
                 up_close_danmu as "up_close_danmu!: bool""#,

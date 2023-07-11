@@ -85,7 +85,6 @@ pub struct Studio {
 
     // #[clap(long, default_value = "0")]
     // pub act_reserve_create: u8,
-
     /// 是否开启杜比音效, 0-关闭 1-开启
     #[clap(long, default_value = "0")]
     #[serde(default)]
@@ -106,9 +105,9 @@ pub struct Studio {
     #[serde(default)]
     pub open_elec: u8,
 
-    /// 参与话题, 
-    #[clap(long, default_value)]
-    #[serde(default)]
+    /// 参与话题,
+    #[clap(long, default_value = "0")]
+    #[serde(default, skip_serializing_if = "is_zero")]
     pub topic_id: u16,
 
     /// aid 要追加视频的 avid
@@ -126,6 +125,10 @@ pub struct Studio {
     #[clap(long)]
     #[serde(default)]
     pub up_close_danmu: bool,
+}
+
+fn is_zero(v: &u16) -> bool {
+    *v == 0
 }
 
 #[derive(Serialize, Deserialize, Debug, Default)]
