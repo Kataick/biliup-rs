@@ -77,6 +77,6 @@ create table if not exists videos
 --
 -- create index if not exists users_email_idx on users (email);
 -- insert or ignore into upload_streamers (template_name, copyright, source, cover, title, desc, dynamic, tag, dtime,
---                                         interactive, mission_id, dolby, lossless_music, no_reprint, up_selection_reply,
---                                         up_close_reply, up_close_danmu, open_elec, topic_id)
+--                                         interactive, mission_id, dolby, lossless_music, no_reprint, open_elec, topic_id,
+--                                         up_selection_reply, up_close_reply, up_close_danmu)
 -- values ('空模板', 1, '', '', '', '', '', '', null, 0, null, 0, 0, null, 0, 0, 0, null);
