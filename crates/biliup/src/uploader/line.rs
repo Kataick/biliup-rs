@@ -201,39 +201,27 @@ impl Line {
         if let Uploader::Upos = self.os {
             // Check self.upcdn value and modify endpoint accordingly
             match self.upcdn.as_str()  {
-                "ws" => {
-                    if let Some(endpoint_value) = serde_json::to_value("//upos-cs-upcdnws.bilivideo.com").ok() {
-                        json_response["endpoint"] = endpoint_value;
-                    }
-                },
-                "qn" => {
-                    if let Some(endpoint_value) = serde_json::to_value("//upos-cs-upcdnqn.bilivideo.com").ok() {
-                        json_response["endpoint"] = endpoint_value;
-                    }
-                },
-                "bldsa" => {
-                    if let Some(endpoint_value) = serde_json::to_value("//upos-cs-upcdnbldsa.bilivideo.com").ok() {
-                        json_response["endpoint"] = endpoint_value;
-                    }
-                },
+                "ws" => json_response["endpoint"] = serde_json::to_value("//upos-cs-upcdnws.bilivideo.com").unwrap(),
+                "qn" => json_response["endpoint"] = serde_json::to_value("//upos-cs-upcdnqn.bilivideo.com").unwrap(),
+                "bldsa" => json_response["endpoint"] = serde_json::to_value("//upos-cs-upcdnbldsa.bilivideo.com").unwrap(),
                 _ => (),  // No modification for other cases
             }
         }
 
         match self.os {
             Uploader::Upos => Ok(Parcel {
-                line: Bucket::Upos(response.json().await?),
+                line: Bucket::Upos(serde_json::from_value::<upos::Bucket>(json_response)?),
                 video_file,
             }),
             Uploader::Kodo => Ok(Parcel {
-                line: Bucket::Kodo(response.json().await?),
+                line: Bucket::Kodo(serde_json::from_value::<kodo::Bucket>(json_response)?),
                 video_file,
             }),
             Uploader::Bos | Uploader::Gcs => {
                 panic!("unsupported")
             }
             Uploader::Cos => Ok(Parcel {
-                line: Bucket::Cos(response.json().await?, self.probe_url == "internal"),
+                line: Bucket::Cos(serde_json::from_value::<cos::Bucket>(json_response)?, self.probe_url == "internal"),
                 video_file,
             }),
         }
