@@ -196,6 +196,8 @@ impl Line {
             )));
         }
 
+        let mut json_response: serde_json::Value = response.json().await?;  // Parse JSON response
+
         if let Uploader::Upos = self.os {
             // Check self.upcdn value and modify endpoint accordingly
             match self.upcdn.as_str()  {
