@@ -85,4 +85,4 @@ sqlx = { version = "0.6", features = [ "runtime-tokio-native-tls", "sqlite", "of
 
 [build-dependencies]
 native-tls = { version = "0.2.11", features = ["vendored"] }
-openssl = { version = "0.10.42", features = ["vendored"] }
+openssl = { version = "0.10.60", features = ["vendored"] }
