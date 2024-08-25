@@ -9,6 +9,7 @@ use std::collections::HashMap;
 use std::path::PathBuf;
 use std::time::Duration;
 
+use crate::uploader::bilibili::Vid;
 use crate::uploader::UploadLine;
 use biliup::downloader::construct_headers;
 use biliup::downloader::util::Segmentable;
@@ -258,6 +259,61 @@ fn upload(
                 .no_reprint(no_reprint)
                 .open_elec(open_elec)
                 .desc_v2_credit(desc_v2)
+                .build();
+
+            match rt.block_on(uploader::upload(studio_pre)) {
+                Ok(_) => Ok(()),
+                // Ok(_) => {  },
+                Err(err) => Err(pyo3::exceptions::PyRuntimeError::new_err(format!(
+                    "{}, {}",
+                    err.root_cause(),
+                    err
+                ))),
+            }
+        })
+    })
+}
+
+#[pyfunction]
+fn upload_append(
+    py: Python<'_>,
+    vid: Vid,
+    video_path: Vec<PathBuf>,
+    cookie_file: PathBuf,
+    limit: usize,
+    line: Option<UploadLine>,
+) -> PyResult<()> {
+    py.allow_threads(|| {
+        let rt = tokio::runtime::Builder::new_current_thread()
+            .enable_all()
+            .build()?;
+        // 输出到控制台中
+        unsafe {
+            time::util::local_offset::set_soundness(time::util::local_offset::Soundness::Unsound);
+        }
+        let local_time = tracing_subscriber::fmt::time::LocalTime::new(format_description!(
+            "[year]-[month]-[day] [hour]:[minute]:[second]"
+        ));
+        let formatting_layer = tracing_subscriber::FmtSubscriber::builder()
+            // will be written to stdout.
+            // builds the subscriber.
+            .with_timer(local_time.clone())
+            .finish();
+        let file_appender = tracing_appender::rolling::never("", "upload.log");
+        let (non_blocking, _guard) = tracing_appender::non_blocking(file_appender);
+        let file_layer = tracing_subscriber::fmt::layer()
+            .with_ansi(false)
+            .with_timer(local_time)
+            .with_writer(non_blocking);
+
+        let collector = formatting_layer.with(file_layer);
+
+        tracing::subscriber::with_default(collector, || -> PyResult<()> {
+            let studio_pre = StudioPre::builder()
+                .video_path(video_path)
+                .cookie_file(cookie_file)
+                .line(line)
+                .limit(limit)
                 .build();
 
             match rt.block_on(uploader::upload(studio_pre)) {

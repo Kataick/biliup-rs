@@ -164,3 +164,17 @@ def upload(video_path: List[str],
     :param Optional[dtime] int dtime: 定时发布时间, 距离提交大于2小时小于15天, 格式为10位时间戳
     :param Optional[UploadLine] line: 上传线路
     """
+
+
+def upload_append(video_path: List[str],
+           cookie_file: str,
+           limit: int,
+           line: Optional[UploadLine]) -> None:
+    """
+    稿件追加视频
+
+    :param List[str] video_path: 视频文件路径
+    :param str cookie_file: cookie文件路径
+    :param int limit: 单视频文件最大并发数
+    :param Optional[UploadLine] line: 上传线路
+    """
