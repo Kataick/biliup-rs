@@ -277,10 +277,10 @@ fn upload(
 #[pyfunction]
 fn upload_append(
     py: Python<'_>,
+    vid: Vid,
     video_path: Vec<PathBuf>,
     cookie_file: PathBuf,
     limit: usize,
-    vid: Option<Vid>,
     line: Option<UploadLine>,
 ) -> PyResult<()> {
     py.allow_threads(|| {
