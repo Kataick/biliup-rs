@@ -277,7 +277,7 @@ fn upload(
 #[pyfunction]
 fn upload_append(
     py: Python<'_>,
-    vid: Vid,
+    vid: Option<Vid>,
     video_path: Vec<PathBuf>,
     cookie_file: PathBuf,
     limit: usize,
@@ -339,6 +339,7 @@ fn stream_gears(m: &Bound<'_, PyModule>) -> PyResult<()> {
     //     .with_writer(non_blocking)
     //     .init();
     m.add_function(wrap_pyfunction!(upload, m)?)?;
+    m.add_function(wrap_pyfunction!(upload_append, m)?)?;
     m.add_function(wrap_pyfunction!(download, m)?)?;
     m.add_function(wrap_pyfunction!(download_with_callback, m)?)?;
     m.add_function(wrap_pyfunction!(login_by_cookies, m)?)?;
