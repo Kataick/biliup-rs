@@ -1,7 +1,7 @@
 use anyhow::{Context, Result};
 use biliup::client::StatelessClient;
 use biliup::error::Kind;
-use biliup::uploader::bilibili::{Credit, ResponseData, Studio, VId};
+use biliup::uploader::bilibili::{Credit, ResponseData, Studio, Vid};
 use biliup::uploader::credential::login_by_cookies;
 use biliup::uploader::line::Probe;
 use biliup::uploader::{line, VideoFile};
