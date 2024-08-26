@@ -1,7 +1,7 @@
 use anyhow::{Context, Result};
 use biliup::client::StatelessClient;
 use biliup::error::Kind;
-use biliup::uploader::bilibili::{Credit, ResponseData, Studio};
+use biliup::uploader::bilibili::{Credit, ResponseData, Studio, VId};
 use biliup::uploader::credential::login_by_cookies;
 use biliup::uploader::line::Probe;
 use biliup::uploader::{line, VideoFile};
@@ -39,6 +39,7 @@ pub struct PyCredit {
 
 #[derive(TypedBuilder)]
 pub struct StudioPre {
+    vid: Vid,
     video_path: Vec<PathBuf>,
     cookie_file: PathBuf,
     line: Option<UploadLine>,
@@ -65,6 +66,7 @@ pub async fn upload(studio_pre: StudioPre) -> Result<ResponseData> {
     //     .write(true)
     //     .open(&cookie_file);
     let StudioPre {
+        vid,
         video_path,
         cookie_file,
         line,
@@ -144,6 +146,7 @@ pub async fn upload(studio_pre: StudioPre) -> Result<ResponseData> {
     }
 
     let mut studio: Studio = Studio::builder()
+        .vid(vid)
         .desc(desc)
         .dtime(dtime)
         .copyright(copyright)
