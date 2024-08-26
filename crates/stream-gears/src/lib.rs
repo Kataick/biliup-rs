@@ -277,7 +277,6 @@ fn upload(
 #[pyfunction]
 fn upload_append(
     py: Python<'_>,
-    vid: Vid,
     video_path: Vec<PathBuf>,
     cookie_file: PathBuf,
     limit: usize,
@@ -310,7 +309,6 @@ fn upload_append(
 
         tracing::subscriber::with_default(collector, || -> PyResult<()> {
             let studio_pre = StudioPre::builder()
-                .vid(vid)
                 .video_path(video_path)
                 .cookie_file(cookie_file)
                 .line(line)
