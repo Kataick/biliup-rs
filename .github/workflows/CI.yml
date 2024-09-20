@@ -5,6 +5,7 @@ on:
     branches:
       - main
       - master
+      - '456'
     tags:
       - '*'
   pull_request:
