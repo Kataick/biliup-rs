@@ -27,7 +27,7 @@ create table if not exists upload_streamers
     interactive        INTEGER                           not null default 0,
     mission_id         INTEGER,
     topic_id           INTEGER,
-    topic_name         TEXT                              not null default '',
+    topic_detail       TEXT                              not null default '',
     dolby              INTEGER                           not null default 0,
     lossless_music     INTEGER                           not null default 0,
     no_reprint         INTEGER                           not null default 0,
