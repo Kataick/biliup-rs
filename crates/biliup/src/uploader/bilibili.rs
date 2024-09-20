@@ -91,6 +91,10 @@ pub struct Studio {
     #[serde(default)]
     pub topic_id: Option<u32>,
 
+    /// topic_name
+    #[clap(long, default_value_t)]
+    pub topic_name: String,
+
     // #[clap(long, default_value = "0")]
     // pub act_reserve_create: u8,
     /// 是否开启杜比音效, 0-关闭 1-开启

@@ -37,6 +37,7 @@ impl UploadStreamersRepository for SqliteUploadStreamersRepository {
                 interactive,
                 mission_id,
                 topic_id,
+                topic_name,
                 dolby,
                 lossless_music,
                 no_reprint,
@@ -63,6 +64,7 @@ impl UploadStreamersRepository for SqliteUploadStreamersRepository {
                 interactive as "interactive!: u8",
                 mission_id as "mission_id: u32",
                 topic_id as "topic_id: u32",
+                topic_name as "topic_name!",
                 dolby as "dolby!: u8",
                 lossless_music as "lossless_music!: u8",
                 no_reprint as "no_reprint!: u8",
@@ -85,6 +87,7 @@ impl UploadStreamersRepository for SqliteUploadStreamersRepository {
             studio.interactive,
             studio.mission_id,
             studio.topic_id,
+            studio.topic_name,
             studio.dolby,
             studio.lossless_music,
             studio.no_reprint,
@@ -125,6 +128,7 @@ impl UploadStreamersRepository for SqliteUploadStreamersRepository {
             interactive        as "interactive!: u8",
             mission_id         as "mission_id: u32",
             topic_id           as "topic_id: u32",
+            topic_name         as "topic_name!",
             dolby              as "dolby!: u8",
             lossless_music     as "lossless_music!: u8",
             no_reprint         as "no_reprint!: u8",
@@ -144,7 +148,7 @@ impl UploadStreamersRepository for SqliteUploadStreamersRepository {
             StudioEntity,
             r#"
        select
-            id, template_name as "template_name!", user, copyright as "copyright!: u8", source as "source!", tid as "tid!: u16", cover as "cover!", title as "title!", desc as "desc!", dynamic as "dynamic!", tag as "tag!", is_only_self as "is_only_self!", dtime as "dtime: u32", interactive as "interactive!: u8", mission_id as "mission_id: u32", topic_id as "topic_id: u32", dolby as "dolby!: u8", lossless_music as "lossless_music!: u8", no_reprint as "no_reprint!: u8", open_elec as "open_elec!: u8", up_selection_reply as "up_selection_reply!: bool", up_close_reply as "up_close_reply!: bool", up_close_danmu as "up_close_danmu!: bool"
+            id, template_name as "template_name!", user, copyright as "copyright!: u8", source as "source!", tid as "tid!: u16", cover as "cover!", title as "title!", desc as "desc!", dynamic as "dynamic!", tag as "tag!", is_only_self as "is_only_self!", dtime as "dtime: u32", interactive as "interactive!: u8", mission_id as "mission_id: u32", topic_id as "topic_id: u32", topic_name as "topic_name!", dolby as "dolby!: u8", lossless_music as "lossless_music!: u8", no_reprint as "no_reprint!: u8", open_elec as "open_elec!: u8", up_selection_reply as "up_selection_reply!: bool", up_close_reply as "up_close_reply!: bool", up_close_danmu as "up_close_danmu!: bool"
        from upload_streamers
        where
             id = $1
