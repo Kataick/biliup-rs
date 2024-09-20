@@ -62,6 +62,10 @@ pub struct Studio {
     #[clap(long, default_value_t)]
     pub tag: String,
 
+    #[clap(long, default_value = "0")]
+    #[serde(default)]
+    pub is_only_self: u8,
+
     #[serde(default)]
     #[builder(!default)]
     #[clap(skip)]
@@ -82,6 +86,10 @@ pub struct Studio {
     #[clap(long)]
     #[serde(default)]
     pub mission_id: Option<u32>,
+
+    #[clap(long)]
+    #[serde(default)]
+    pub topic_id: Option<u32>,
 
     // #[clap(long, default_value = "0")]
     // pub act_reserve_create: u8,
