@@ -87,17 +87,9 @@ pub struct Studio {
     #[serde(default)]
     pub mission_id: Option<u32>,
 
-    /// topic_detail
-    #[clap(long, default_value_t)]
-    pub topic_detail: String,
-
     #[clap(long)]
     #[serde(default)]
     pub topic_id: Option<u32>,
-
-    /// topic_name
-    #[clap(long, default_value_t)]
-    pub topic_name: String,
 
     // #[clap(long, default_value = "0")]
     // pub act_reserve_create: u8,
