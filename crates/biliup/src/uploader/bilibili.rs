@@ -356,8 +356,17 @@ impl BiliBili {
 
     pub async fn studio_data(&self, vid: &Vid) -> Result<Studio> {
         let mut video_info = self.video_data(vid).await?;
+        const EXTRA_FIELDS_BLACKLIST: &[&str] = &["limited_free"];
 
-        let mut studio: Studio = serde_json::from_value(video_info["archive"].take())?;
+        let mut archive_value = video_info["archive"].take();
+
+        if let Some(obj) = archive_value.as_object_mut() {
+            for key in EXTRA_FIELDS_BLACKLIST {
+                obj.remove(*key);
+            }
+        }
+
+        let mut studio: Studio = serde_json::from_value(archive_value)?;
         let videos: Vec<Video> = serde_json::from_value(video_info["videos"].take())?;
 
         studio.videos = videos;
