@@ -303,6 +303,50 @@ impl BiliBili {
         }
     }
 
+    pub async fn edit_by_app(&self, studio: &Studio) -> Result<serde_json::Value> {
+        let payload = {
+            let mut payload = json!({
+                "access_key": self.login_info.token_info.access_token,
+                "appkey": crate::credential::AppKeyStore::BiliTV.app_key(),
+                "build": 7800300,
+                "c_locale": "zh-Hans_CN",
+                "channel": "bili",
+                "disable_rcmd": 0,
+                "mobi_app": "android",
+                "platform": "android",
+                "s_locale": "zh-Hans_CN",
+                "statistics": "\"appId\":1,\"platform\":3,\"version\":\"7.80.0\",\"abtest\":\"\"",
+                "ts": std::time::SystemTime::now().duration_since(std::time::UNIX_EPOCH).unwrap().as_secs(),
+            });
+
+            let urlencoded = serde_urlencoded::to_string(&payload)?;
+            let sign = crate::credential::Credential::sign(
+                &urlencoded,
+                crate::credential::AppKeyStore::BiliTV.appsec(),
+            );
+            payload["sign"] = Value::from(sign);
+            payload
+        };
+        let ret: serde_json::Value = reqwest::Client::builder()
+            .user_agent("Mozilla/5.0 BiliDroid/7.80.0 (bbcallen@gmail.com) os/android model/MI 6 mobi_app/android build/7800300 channel/bili innerVer/7800310 osVer/13 network/2")
+            .timeout(Duration::new(60, 0))
+            .build()?
+            .post("https://member.bilibili.com/x/vu/app/edit")
+            .query(&payload)
+            .json(studio)
+            .send()
+            .await?
+            .json()
+            .await?;
+        info!("{}", ret);
+        if ret["code"] == 0 {
+            info!("稿件修改成功");
+            Ok(ret)
+        } else {
+            Err(Kind::Custom(ret.to_string()))
+        }
+    }
+
     pub async fn edit(&self, studio: &Studio) -> Result<serde_json::Value> {
         let ret: serde_json::Value = reqwest::Client::builder()
             .user_agent("Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/114.0.0.0 Safari/537.36")
