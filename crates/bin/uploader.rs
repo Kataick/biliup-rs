@@ -141,7 +141,7 @@ pub async fn append(
     let mut studio = bilibili.studio_data(&vid).await?;
     studio.videos.append(&mut uploaded_videos);
     match submit {
-        SubmitOption::App => bili.edit_by_app(&studio).await?,
+        SubmitOption::App => bilibili.edit_by_app(&studio).await?,
         _ => bilibili.edit(&studio).await?,
     };
     bilibili.edit(&studio).await?;
