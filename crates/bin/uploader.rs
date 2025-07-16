@@ -144,7 +144,7 @@ pub async fn append(
         SubmitOption::App => bilibili.edit_by_app(&studio).await?,
         _ => bilibili.edit(&studio).await?,
     };
-    bilibili.edit(&studio).await?;
+    // bilibili.edit(&studio).await?;
     // studio.edit(&login_info).await?;
     Ok(())
 }
