@@ -65,7 +65,7 @@ pub enum Commands {
         // name: Option<String>,
 
         /// 提交接口
-        #[arg(long, default_value = "app")]
+        #[arg(long, default_value = "web")]
         submit: SubmitOption,
 
         /// vid为稿件 av 或 bv 号

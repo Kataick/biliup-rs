@@ -340,7 +340,7 @@ impl BiliBili {
             .await?;
         info!("{}", ret);
         if ret["code"] == 0 {
-            info!("稿件修改成功");
+            info!("APP接口稿件修改成功");
             Ok(ret)
         } else {
             Err(Kind::Custom(ret.to_string()))
@@ -364,6 +364,31 @@ impl BiliBili {
         info!("{}", ret);
         if ret["code"] == 0 {
             info!("稿件修改成功");
+            Ok(ret)
+        } else {
+            Err(Kind::Custom(ret.to_string()))
+        }
+    }
+
+    pub async fn edit_by_web(&self, studio: &Studio) -> Result<serde_json::Value> {
+        let ts = std::time::SystemTime::now()
+            .duration_since(std::time::UNIX_EPOCH)
+            .unwrap()
+            .as_millis();
+        let ret: serde_json::Value = self
+            .client
+            .post(format!(
+                "http://member.bilibili.com/x/vu/web/edit?t={ts}&csrf={}",
+                self.get_csrf()?
+            ))
+            .json(studio)
+            .send()
+            .await?
+            .json()
+            .await?;
+        info!("{}", ret);
+        if ret["code"] == 0 {
+            info!("WEB接口稿件修改成功");
             Ok(ret)
         } else {
             Err(Kind::Custom(ret.to_string()))
@@ -451,6 +476,23 @@ impl BiliBili {
         Err(Kind::Custom(result.message))
     }
 
+    fn get_csrf(&self) -> Result<&str> {
+        let csrf = self
+            .login_info
+            .cookie_info
+            .get("cookies")
+            .and_then(|c| c.as_array())
+            .ok_or("cookie error")?
+            .iter()
+            .filter_map(|c| c.as_object())
+            .find(|c| c["name"] == "bili_jct")
+            .ok_or("jct error")?
+            .get("value")
+            .and_then(|v| v.as_str())
+            .ok_or("csrf error")?;
+        Ok(csrf)
+    }
+
     pub async fn cover_up(&self, input: &[u8]) -> Result<String> {
         let csrf = self
             .login_info
@@ -467,7 +509,7 @@ impl BiliBili {
             .post("https://member.bilibili.com/x/vu/web/cover/up")
             .form(&json!({
                 "cover": format!("data:image/jpeg;base64,{}", base64::Engine::encode(&base64::engine::general_purpose::STANDARD, input)),
-                "csrf": csrf["value"]
+                "csrf": self.get_csrf()?
             }))
             .send()
             .await?;
@@ -557,13 +599,11 @@ impl BiliBili {
             pages
         };
 
-        let mut all_pages = futures::future::try_join_all(
-            (2..=pages)
-                .map(|page_num| self.archives(status, page_num))
-                .collect::<Vec<_>>(),
-        )
-        .await?;
-        all_pages.insert(0, first_page);
+        let mut all_pages = vec![first_page];
+        for page_num in 2..=pages {
+            let page = self.archives(status, page_num).await?;
+            all_pages.push(page);
+        }
 
         Ok(all_pages)
     }
