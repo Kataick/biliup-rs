@@ -494,16 +494,6 @@ impl BiliBili {
     }
 
     pub async fn cover_up(&self, input: &[u8]) -> Result<String> {
-        let csrf = self
-            .login_info
-            .cookie_info
-            .get("cookies")
-            .and_then(|c| c.as_array())
-            .ok_or("cover_up cookie error")?
-            .iter()
-            .filter_map(|c| c.as_object())
-            .find(|c| c["name"] == "bili_jct")
-            .ok_or("cover_up jct error")?;
         let response = self
             .client
             .post("https://member.bilibili.com/x/vu/web/cover/up")
