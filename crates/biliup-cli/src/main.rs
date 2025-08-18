@@ -10,6 +10,7 @@ use time::macros::format_description;
 use crate::cli::{Cli, Commands};
 use crate::downloader::{download, generate_json};
 use crate::uploader::{append, list, login, renew, show, upload_by_command, upload_by_config};
+use biliup::uploader::util::SubmitOption;
 
 use clap::Parser;
 
@@ -64,7 +65,7 @@ async fn main() -> Result<()> {
                 line,
                 limit,
                 retry,
-                submit,
+                submit.unwrap_or(SubmitOption::BCutAndroid),
                 cli.proxy.as_deref(),
             )
             .await?
@@ -72,8 +73,17 @@ async fn main() -> Result<()> {
         Commands::Upload {
             video_path: _,
             config: Some(config),
+            submit,
             ..
-        } => upload_by_config(config, cli.user_cookie, cli.proxy.as_deref()).await?,
+        } => {
+            upload_by_config(
+                config,
+                cli.user_cookie,
+                submit,
+                cli.proxy.as_deref()
+            )
+            .await?;
+        }
         Commands::Append {
             video_path,
             vid,
@@ -90,7 +100,7 @@ async fn main() -> Result<()> {
                 line,
                 limit,
                 retry,
-                submit,
+                submit.unwrap_or(SubmitOption::Web),
                 cli.proxy.as_deref(),
             )
             .await?
