@@ -8,7 +8,7 @@ use serde::{Deserialize, Serialize};
 pub enum SubmitOption {
     // Client,
     App,
-    // Web,
+    Web,
     BCutAndroid,
 }
 
