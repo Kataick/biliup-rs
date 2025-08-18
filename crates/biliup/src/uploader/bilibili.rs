@@ -366,7 +366,7 @@ impl BiliBili {
             .await?;
         info!("{}", ret);
         if ret["code"] == 0 {
-            info!("稿件修改成功");
+            info!("WEB接口稿件修改成功");
             Ok(ret)
         } else {
             Err(Kind::Custom(ret.to_string()))
@@ -415,7 +415,7 @@ impl BiliBili {
             .await?;
         info!("{:?}", ret);
         if  ret["code"]  == 0 {
-            info!("稿件修改成功");
+            info!("APP接口稿件修改成功");
             Ok(ret)
         } else {
             Err(Kind::Custom(ret.to_string()))
