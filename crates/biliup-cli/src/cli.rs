@@ -1,4 +1,5 @@
 use biliup::uploader::bilibili::{Studio, Vid};
+use biliup::uploader::util::SubmitOption;
 use clap::{Parser, Subcommand, ValueEnum};
 
 use std::path::PathBuf;
@@ -34,7 +35,7 @@ pub enum Commands {
     /// 上传视频
     Upload {
         /// 提交接口
-        #[arg(long, default_value = "client")]
+        #[arg(long, default_value = "app")]
         submit: SubmitOption,
 
         // Optional name to operate on
@@ -66,6 +67,9 @@ pub enum Commands {
     },
     /// 是否要对某稿件追加视频
     Append {
+         /// 提交接口
+        #[arg(long, default_value = "app")]
+        submit: SubmitOption,
         // Optional name to operate on
         // name: Option<String>,
         /// vid为稿件 av 或 bv 号
@@ -165,13 +169,6 @@ pub enum UploadLine {
     Txa,
     Bda,
     Alia,
-}
-
-#[derive(Debug, Clone, ValueEnum)]
-pub enum SubmitOption {
-    Client,
-    App,
-    Web,
 }
 
 fn human_size(s: &str) -> Result<u64, String> {
