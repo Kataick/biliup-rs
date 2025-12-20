@@ -67,14 +67,14 @@ impl Site {
         info!("{}", self);
         match self.extension {
             Extension::Flv => {
-                let file = LifecycleFile::new(&fmt_file_name, "flv");
+                let file = LifecycleFile::new(&fmt_file_name, "flv", hook);
                 let response = self.client.retryable(&self.direct_url).await?;
                 let mut connection = Connection::new(response);
                 connection.read_frame(9).await?;
                 httpflv::parse_flv(connection, file, segment).await?
             }
             Extension::Ts => {
-                let file = LifecycleFile::new(&fmt_file_name, "ts");
+                let file = LifecycleFile::new(&fmt_file_name, "ts", hook);
                 hls::download(&self.direct_url, &self.client, file, segment).await?
             }
         }
