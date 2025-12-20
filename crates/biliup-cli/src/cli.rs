@@ -158,16 +158,20 @@ pub enum Commands {
 
 #[derive(Clone, PartialEq, Eq, PartialOrd, Ord, ValueEnum)]
 pub enum UploadLine {
-    Bda2,
-    Ws,
-    Qn,
-    // Kodo,
-    // Cos,
-    // CosInternal,
     Bldsa,
+    Cnbldsa,
+    Andsa,
+    Atdsa,
+    Bda2,
+    Cnbd,
+    Anbd,
+    Atbd,
     Tx,
-    Txa,
+    Cntx,
+    Antx,
+    Attx,
     Bda,
+    Txa,
     Alia,
 }
 
