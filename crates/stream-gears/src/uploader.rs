@@ -19,16 +19,22 @@ use typed_builder::TypedBuilder;
 #[pyclass]
 #[derive(Clone, PartialEq, Eq, PartialOrd, Ord)]
 pub enum UploadLine {
-    Bda2,
-    Ws,
-    Qn,
     Bldsa,
+    Cnbldsa,
+    Andsa,
+    Atdsa,
+    Bda2,
+    Cnbd,
+    Anbd,
+    Atbd,
     Tx,
-    Txa,
+    Cntx,
+    Antx,
+    Attx,
     Bda,
+    Txa,
     Alia,
 }
-
 #[derive(FromPyObject)]
 pub struct PyCredit {
     #[pyo3(item("type"))]
@@ -57,7 +63,7 @@ pub struct StudioPre {
     dolby: u8,
     lossless_music: u8,
     no_reprint: u8,
-    open_elec: u8,
+    charging_pay: u8,
     #[builder(default = false)]
     up_close_reply: bool,
     #[builder(default = false)]
@@ -91,7 +97,7 @@ pub async fn upload(studio_pre: StudioPre, proxy: Option<&str>) -> Result<Respon
         dolby,
         lossless_music,
         no_reprint,
-        open_elec,
+        charging_pay,
         desc_v2_credit,
         extra_fields,
         ..
@@ -177,7 +183,7 @@ pub async fn upload(studio_pre: StudioPre, proxy: Option<&str>) -> Result<Respon
         .dolby(dolby)
         .lossless_music(lossless_music)
         .no_reprint(no_reprint)
-        .open_elec(open_elec)
+        .charging_pay(charging_pay)
         .desc_v2(Some(desc_v2))
         .extra_fields(extra_fields)
         .build();
@@ -218,7 +224,7 @@ pub async fn upload_by_app(studio_pre: StudioPre, proxy: Option<&str>) -> Result
         dolby,
         lossless_music,
         no_reprint,
-        open_elec,
+        charging_pay,
         up_close_reply,
         up_selection_reply,
         up_close_danmu,
@@ -306,7 +312,7 @@ pub async fn upload_by_app(studio_pre: StudioPre, proxy: Option<&str>) -> Result
         .dolby(dolby)
         .lossless_music(lossless_music)
         .no_reprint(no_reprint)
-        .open_elec(open_elec)
+        .charging_pay(charging_pay)
         .up_close_reply(up_close_reply)
         .up_selection_reply(up_selection_reply)
         .up_close_danmu(up_close_danmu)

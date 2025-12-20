@@ -65,7 +65,7 @@ Options:
       --dolby <DOLBY>                是否开启杜比音效, 0-关闭 1-开启 [default: 0]
       --hires <LOSSLESS_MUSIC>       是否开启 Hi-Res, 0-关闭 1-开启 [default: 0]
       --no-reprint <NO_REPRINT>      0-允许转载，1-禁止转载 [default: 0]
-      --open-elec <OPEN_ELEC>        是否开启充电, 0-关闭 1-开启 [default: 0]
+      --charging-pay <CHARGING_PAY>        是否开启充电, 0-关闭 1-开启 [default: 0]
       --up-selection-reply           是否开启精选评论，仅提交接口为app时可用
       --up-close-reply               是否关闭评论，仅提交接口为app时可用
       --up-close-danmu               是否关闭弹幕，仅提交接口为app时可用

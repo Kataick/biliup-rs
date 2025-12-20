@@ -213,7 +213,7 @@ fn login_by_web_qrcode(
 
 #[allow(clippy::too_many_arguments)]
 #[pyfunction]
-#[pyo3(signature = (video_path, cookie_file, title, tid=171, tag="".to_string(), copyright=2, source="".to_string(), desc="".to_string(), dynamic="".to_string(), cover="".to_string(), dolby=0, lossless_music=0, no_reprint=0, open_elec=0, limit=3, desc_v2=vec![], dtime=None, line=None, extra_fields="".to_string(), proxy=None))]
+#[pyo3(signature = (video_path, cookie_file, title, tid=171, tag="".to_string(), copyright=2, source="".to_string(), desc="".to_string(), dynamic="".to_string(), cover="".to_string(), dolby=0, lossless_music=0, no_reprint=0, charging_pay=0, limit=3, desc_v2=vec![], dtime=None, line=None, extra_fields="".to_string(), proxy=None))]
 fn upload(
     py: Python<'_>,
     video_path: Vec<PathBuf>,
@@ -229,7 +229,7 @@ fn upload(
     dolby: u8,
     lossless_music: u8,
     no_reprint: u8,
-    open_elec: u8,
+    charging_pay: u8,
     limit: usize,
     desc_v2: Vec<PyCredit>,
     dtime: Option<u32>,
@@ -281,7 +281,7 @@ fn upload(
                 .dolby(dolby)
                 .lossless_music(lossless_music)
                 .no_reprint(no_reprint)
-                .open_elec(open_elec)
+                .charging_pay(charging_pay)
                 .desc_v2_credit(desc_v2)
                 .extra_fields(Some(parse_extra_fields(extra_fields)))
                 .build();
@@ -301,7 +301,7 @@ fn upload(
 
 #[allow(clippy::too_many_arguments)]
 #[pyfunction]
-#[pyo3(signature = (video_path, cookie_file, title, tid=171, tag="".to_string(), copyright=2, source="".to_string(), desc="".to_string(), dynamic="".to_string(), cover="".to_string(), dolby=0, lossless_music=0, no_reprint=0, open_elec=0, up_close_reply=false, up_selection_reply=false, up_close_danmu=false, limit=3, desc_v2=vec![], dtime=None, line=None, extra_fields="".to_string(), proxy=None))]
+#[pyo3(signature = (video_path, cookie_file, title, tid=171, tag="".to_string(), copyright=2, source="".to_string(), desc="".to_string(), dynamic="".to_string(), cover="".to_string(), dolby=0, lossless_music=0, no_reprint=0, charging_pay=0, up_close_reply=false, up_selection_reply=false, up_close_danmu=false, limit=3, desc_v2=vec![], dtime=None, line=None, extra_fields="".to_string(), proxy=None))]
 fn upload_by_app(
     py: Python<'_>,
     video_path: Vec<PathBuf>,
@@ -317,7 +317,7 @@ fn upload_by_app(
     dolby: u8,
     lossless_music: u8,
     no_reprint: u8,
-    open_elec: u8,
+    charging_pay: u8,
     up_close_reply: bool,
     up_selection_reply: bool,
     up_close_danmu: bool,
@@ -372,7 +372,7 @@ fn upload_by_app(
                 .dolby(dolby)
                 .lossless_music(lossless_music)
                 .no_reprint(no_reprint)
-                .open_elec(open_elec)
+                .charging_pay(charging_pay)
                 .up_close_reply(up_close_reply)
                 .up_selection_reply(up_selection_reply)
                 .up_close_danmu(up_close_danmu)

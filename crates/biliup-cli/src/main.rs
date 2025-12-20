@@ -1,7 +1,5 @@
 mod cli;
 mod downloader;
-#[cfg(feature = "server")]
-mod server;
 mod uploader;
 
 use anyhow::Result;
@@ -76,13 +74,7 @@ async fn main() -> Result<()> {
             submit,
             ..
         } => {
-            upload_by_config(
-                config,
-                cli.user_cookie,
-                submit,
-                cli.proxy.as_deref()
-            )
-            .await?;
+            upload_by_config(config, cli.user_cookie, submit, cli.proxy.as_deref()).await?;
         }
         Commands::Append {
             video_path,
@@ -113,8 +105,8 @@ async fn main() -> Result<()> {
             split_size,
             split_time,
         } => download(&url, output, split_size, split_time).await?,
-        #[cfg(feature = "server")]
-        Commands::Server { bind, port } => server::run((&bind, port)).await?,
+
+        Commands::Server { bind, port } => biliup_cli::run((&bind, port)).await?,
         Commands::List {
             is_pubing,
             pubed,

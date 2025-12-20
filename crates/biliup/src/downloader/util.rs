@@ -13,18 +13,18 @@ pub enum Segment {
     Size(u64, u64),
     Never,
 }
-#[derive(Debug)]
+#[derive(Debug, Clone)]
 pub struct Segmentable {
     time: Time,
     size: Size,
 }
-#[derive(Debug)]
+#[derive(Debug, Clone)]
 struct Time {
     expected: Option<Duration>,
     start: Duration,
     current: Duration,
 }
-#[derive(Debug)]
+#[derive(Debug, Clone)]
 struct Size {
     expected: Option<u64>,
     current: u64,
@@ -106,16 +106,19 @@ pub struct LifecycleFile {
 }
 
 impl LifecycleFile {
-    pub fn new(fmt_file_name: &str, extension: &'static str, hook: Option<CallbackFn>) -> Self {
-        let hook: Box<dyn Fn(&str) + Send> = match hook {
-            Some(hook) => hook,
-            _ => Box::new(|_| {}),
-        };
+    pub fn new(fmt_file_name: &str, extension: &'static str) -> Self {
+        Self::with_hook(fmt_file_name, extension, |_| {})
+    }
+
+    pub fn with_hook<F>(fmt_file_name: &str, extension: &'static str, hook: F) -> Self
+    where
+        F: FnMut(&str) + Send + Sync + 'static,
+    {
         Self {
             fmt_file_name: fmt_file_name.to_string(),
             file_name: "".to_string(),
             path: Default::default(),
-            hook,
+            hook: Box::new(hook),
             extension,
         }
     }
@@ -136,7 +139,7 @@ impl LifecycleFile {
         Ok(self.path.as_path())
     }
 
-    pub fn rename(&self) {
+    pub fn rename(&mut self) {
         match fs::rename(&self.path, &self.file_name) {
             Ok(_) => (self.hook)(&self.file_name),
             Err(e) => {
