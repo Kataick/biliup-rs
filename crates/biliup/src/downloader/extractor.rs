@@ -51,7 +51,7 @@ pub enum Extension {
     Ts,
 }
 
-pub type CallbackFn = Box<dyn FnMut(&str) + Send + Sync>;
+pub type CallbackFn = Box<dyn Fn(&str) + Send>;
 
 impl Site {
     pub async fn download(
