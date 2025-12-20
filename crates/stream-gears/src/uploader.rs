@@ -129,7 +129,7 @@ pub async fn upload(studio_pre: StudioPre, proxy: Option<&str>) -> Result<Respon
         // Some(UploadLine::Bda) => line::bda(),
         Some(UploadLine::Txa) => line::txa(),
         Some(UploadLine::Alia) => line::alia(),
-        None => Probe::probe(&client.client).await.unwrap_or_default(),
+        _ => Probe::probe(&client.client).await.unwrap_or_default(),
     };
     for video_path in video_path {
         println!("{:?}", video_path.canonicalize()?.to_str());
@@ -262,7 +262,7 @@ pub async fn upload_by_app(studio_pre: StudioPre, proxy: Option<&str>) -> Result
         // Some(UploadLine::Bda) => line::bda(),
         Some(UploadLine::Txa) => line::txa(),
         Some(UploadLine::Alia) => line::alia(),
-        None => Probe::probe(&client.client).await.unwrap_or_default(),
+        _ => Probe::probe(&client.client).await.unwrap_or_default(),
     };
     for video_path in video_path {
         println!("{:?}", video_path.canonicalize()?.to_str());
