@@ -595,20 +595,7 @@ impl BiliBili {
         let params = [("status", status), ("pn", &page_num.to_string())];
         let url = reqwest::Url::parse_with_params(url_str, &params).unwrap();
 
-        let cookie = self
-            .login_info
-            .cookie_info
-            .get("cookies")
-            .and_then(|c: &Value| c.as_array())
-            .ok_or("archives cookie error")?
-            .iter()
-            .filter_map(|c| match (c["name"].as_str(), c["value"].as_str()) {
-                (Some(name), Some(value)) => Some((name, value)),
-                _ => None,
-            })
-            .map(|c| format!("{}={}", c.0, c.1))
-            .collect::<Vec<_>>()
-            .join("; ");
+        let cookie = self.get_cookie()?;
 
         let jar = reqwest::cookie::Jar::default();
         jar.add_cookie_str(&cookie, &url);
@@ -701,6 +688,24 @@ impl BiliBili {
             .collect::<Vec<_>>();
 
         Ok(studios)
+    }
+
+    fn get_cookie(&self) -> Result<String> {
+        let cookie = self
+            .login_info
+            .cookie_info
+            .get("cookies")
+            .and_then(|c: &Value| c.as_array())
+            .ok_or("get cookie error")?
+            .iter()
+            .filter_map(|c| match (c["name"].as_str(), c["value"].as_str()) {
+                (Some(name), Some(value)) => Some((name, value)),
+                _ => None,
+            })
+            .map(|c| format!("{}={}", c.0, c.1))
+            .collect::<Vec<_>>()
+            .join("; ");
+        Ok(cookie)
     }
 }
 
