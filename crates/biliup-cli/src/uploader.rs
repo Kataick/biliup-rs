@@ -95,6 +95,7 @@ pub async fn upload_by_command(
     // 说不定会适配 web 呢...?
     match submit {
         SubmitOption::BCutAndroid => bili.submit_by_bcut_android(&studio, proxy).await?,
+        SubmitOption::Web => bili.submit_by_web(&studio, proxy).await?,
         _ => bili.submit_by_app(&studio, proxy).await?,
     };
 
