@@ -343,3 +343,23 @@ pub fn alia() -> Line {
         cost: 0,
     }
 }
+
+/// B站自建
+pub fn estx() -> Line {
+    Line {
+        os: Uploader::Upos,
+        query: "probe_version=20250923&upcdn=estx&zone=cs".into(),
+        probe_url: "//e17962d5cstx.esheep.com/OK".into(),
+        cost: 0,
+    }
+}
+
+/// B站自建
+pub fn akbd() -> Line {
+    Line {
+        os: Uploader::Upos,
+        query: "probe_version=20250923&upcdn=akbd&zone=cs".into(),
+        probe_url: "//bb27c891csbd.aikobo.cn/OK".into(),
+        cost: 0,
+    }
+}

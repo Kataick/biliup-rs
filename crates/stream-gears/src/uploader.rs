@@ -34,6 +34,8 @@ pub enum UploadLine {
     Bda,
     Txa,
     Alia,
+    Estx,
+    Akbd,
 }
 #[derive(FromPyObject)]
 pub struct PyCredit {
@@ -129,6 +131,8 @@ pub async fn upload(studio_pre: StudioPre, proxy: Option<&str>) -> Result<Respon
         // Some(UploadLine::Bda) => line::bda(),
         Some(UploadLine::Txa) => line::txa(),
         Some(UploadLine::Alia) => line::alia(),
+        Some(UploadLine::Estx) => line::estx(),
+        Some(UploadLine::Akbd) => line::akbd(),
         _ => Probe::probe(&client.client).await.unwrap_or_default(),
     };
     for video_path in video_path {
@@ -262,6 +266,8 @@ pub async fn upload_by_app(studio_pre: StudioPre, proxy: Option<&str>) -> Result
         // Some(UploadLine::Bda) => line::bda(),
         Some(UploadLine::Txa) => line::txa(),
         Some(UploadLine::Alia) => line::alia(),
+        Some(UploadLine::Estx) => line::estx(),
+        Some(UploadLine::Akbd) => line::akbd(),
         _ => Probe::probe(&client.client).await.unwrap_or_default(),
     };
     for video_path in video_path {
